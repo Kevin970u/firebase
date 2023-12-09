@@ -14,7 +14,7 @@
         <input type="number" id="edad">
         <button type="button" onclick="crearRegistro()">Agregar</button>
     </form>
-    <h1>Base de datos en Firebase</h1>
+    <h1>Base de datos en Firebase:</h1>
     <br>
     <br>
     <table border="1">
@@ -71,9 +71,6 @@
                     const key = childSnapshot.key;
                     const data = childSnapshot.val();
 
-                    console.log("Clave:", key);
-                    console.log("Datos:", data);
-
                     const fila = document.createElement("tr");
 
                     const celdaNombre = document.createElement("td");
@@ -90,19 +87,16 @@
                         const nuevoNombre = prompt("Ingrese el nuevo nombre:", data.name);
                         const nuevaEdad = prompt("Ingrese la nueva edad:", data.age);
 
-                        console.log("Nuevos datos:", nuevoNombre, nuevaEdad);
+                        if (nuevoNombre !== null && nuevaEdad !== null) {
+                            // Obtener la referencia específica para el registro que queremos actualizar
+                            const registroRef = ref(database, `septimo/${key}`);
 
-                        // Obtener la referencia específica para el registro que queremos actualizar
-                        const registroRef = ref(database, 'septimo', key);
-
-                        // Utilizar la función update en la referencia específica
-                        update(registroRef, {
-                            name: nuevoNombre,
-                            age: nuevaEdad
-                        });
-
-                        // Volver a cargar la tabla después de la actualización
-                        mostrarRegistros();
+                            // Utilizar la función update en la referencia específica
+                            update(registroRef, {
+                                name: nuevoNombre,
+                                age: nuevaEdad
+                            });
+                        }
                     });
 
                     const botonEliminar = document.createElement("button");
@@ -113,9 +107,6 @@
 
                         // Utilizar la función remove en la referencia específica
                         remove(registroRef);
-
-                        // Volver a cargar la tabla después de la eliminación
-                        mostrarRegistros();
                     });
 
                     celdaAcciones.appendChild(botonEditar);
@@ -129,6 +120,7 @@
                 });
             });
         }
+
 
         // Mostrar los registros al cargar la página
         mostrarRegistros();
