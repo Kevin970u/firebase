@@ -14,7 +14,7 @@
         <input type="number" id="edad">
         <button type="button" onclick="crearRegistro()">Agregar</button>
     </form>
-    <h1>Base de datos en Firebase :</h1>
+    <h1>Base de datos en Firebase :)</h1>
     <br>
     <br>
     <table border="1">
@@ -58,7 +58,7 @@
             );
         }
 
-        function editarRegistro(key, data, septimoRef) {
+        function editarRegistro(key, data) {
             const nuevoNombre = prompt("Ingrese el nuevo nombre:", data.name);
 
             // Verificar si el usuario ingresó un nuevo nombre y no está vacío
@@ -68,7 +68,7 @@
                 // Verificar si el usuario ingresó una nueva edad y no está vacía
                 if (nuevaEdad !== null && nuevaEdad.trim() !== "") {
                     // Obtener referencia específica para el registro que queremos actualizar
-                    const registroRef = ref(septimoRef, key);
+                    const registroRef = ref(getDatabase(), 'septimo', key);
 
                     // Utilizar la función update en la referencia específica
                     update(registroRef, {
@@ -83,7 +83,7 @@
             const tablaRegistros = document.getElementById("tablaRegistros");
             tablaRegistros.innerHTML = "";
 
-            const septimoRef = ref(database, 'septimo');
+            const septimoRef = ref(getDatabase(), 'septimo');
             onValue(septimoRef, (snapshot) => {
                 snapshot.forEach((childSnapshot) => {
                     const key = childSnapshot.key;
@@ -96,7 +96,7 @@
                     labelNombre.textContent = data.name;
                     labelNombre.style.cursor = "pointer";
                     labelNombre.addEventListener("click", () => {
-                        editarRegistro(key, data, septimoRef);
+                        editarRegistro(key, data);
                     });
                     celdaNombre.appendChild(labelNombre);
 
