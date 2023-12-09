@@ -85,7 +85,7 @@
                         const nuevaEdad = prompt("Ingrese la nueva edad:", data.age);
 
                         // Obtener referencia específica para el registro que queremos actualizar
-                        const registroRef = ref(septimoRef.child(key));
+                        const registroRef = ref(database, 'septimo', key);
 
                         // Utilizar la función update en la referencia específica
                         update(registroRef, {
@@ -98,7 +98,7 @@
                     botonEliminar.textContent = "Eliminar";
                     botonEliminar.addEventListener("click", () => {
                         // Obtener referencia específica para el registro que queremos eliminar
-                        const registroRef = ref(septimoRef.child(key));
+                        const registroRef = ref(database, 'septimo', key);
 
                         // Utilizar la función remove en la referencia específica
                         remove(registroRef);
