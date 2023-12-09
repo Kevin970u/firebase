@@ -14,7 +14,7 @@
         <input type="number" id="edad">
         <button type="button" onclick="crearRegistro()">Agregar</button>
     </form>
-    <h1>Base de datos en Firebase :)</h1>
+    <h1>Base de datos en Firebase</h1>
     <br>
     <br>
     <table border="1">
@@ -58,32 +58,11 @@
             );
         }
 
-        function editarRegistro(key, data) {
-            const nuevoNombre = prompt("Ingrese el nuevo nombre:", data.name);
-
-            // Verificar si el usuario ingresó un nuevo nombre y no está vacío
-            if (nuevoNombre !== null && nuevoNombre.trim() !== "") {
-                const nuevaEdad = prompt("Ingrese la nueva edad:", data.age);
-
-                // Verificar si el usuario ingresó una nueva edad y no está vacía
-                if (nuevaEdad !== null && nuevaEdad.trim() !== "") {
-                    // Obtener referencia específica para el registro que queremos actualizar
-                    const registroRef = ref(getDatabase(), 'septimo', key);
-
-                    // Utilizar la función update en la referencia específica
-                    update(registroRef, {
-                        name: nuevoNombre.trim(),
-                        age: nuevaEdad.trim()
-                    });
-                }
-            }
-        }
-
         window.mostrarRegistros = function () {
             const tablaRegistros = document.getElementById("tablaRegistros");
             tablaRegistros.innerHTML = "";
 
-            const septimoRef = ref(getDatabase(), 'septimo');
+            const septimoRef = ref(database, 'septimo');
             onValue(septimoRef, (snapshot) => {
                 snapshot.forEach((childSnapshot) => {
                     const key = childSnapshot.key;
@@ -92,18 +71,28 @@
                     const fila = document.createElement("tr");
 
                     const celdaNombre = document.createElement("td");
-                    const labelNombre = document.createElement("label");
-                    labelNombre.textContent = data.name;
-                    labelNombre.style.cursor = "pointer";
-                    labelNombre.addEventListener("click", () => {
-                        editarRegistro(key, data);
-                    });
-                    celdaNombre.appendChild(labelNombre);
+                    celdaNombre.textContent = data.name;
 
                     const celdaEdad = document.createElement("td");
                     celdaEdad.textContent = data.age;
 
                     const celdaAcciones = document.createElement("td");
+
+                    const botonEditar = document.createElement("button");
+                    botonEditar.textContent = "Editar";
+                    botonEditar.addEventListener("click", () => {
+                        const nuevoNombre = prompt("Ingrese el nuevo nombre:", data.name);
+                        const nuevaEdad = prompt("Ingrese la nueva edad:", data.age);
+
+                        // Obtener referencia específica para el registro que queremos actualizar
+                        const registroRef = ref(septimoRef, key);
+
+                        // Utilizar la función update en la referencia específica
+                        update(registroRef, {
+                            name: nuevoNombre,
+                            age: nuevaEdad
+                        });
+                    });
 
                     const botonEliminar = document.createElement("button");
                     botonEliminar.textContent = "Eliminar";
@@ -111,6 +100,7 @@
                         remove(ref(septimoRef, key));
                     });
 
+                    celdaAcciones.appendChild(botonEditar);
                     celdaAcciones.appendChild(botonEliminar);
 
                     fila.appendChild(celdaNombre);
@@ -121,7 +111,6 @@
                 });
             });
         }
-
 
         // Mostrar los registros al cargar la página
         mostrarRegistros();
