@@ -14,7 +14,7 @@
         <input type="number" id="edad">
         <button type="button" onclick="crearRegistro()">Agregar</button>
     </form>
-    <h1>Base de datos en Firebase :)</h1>
+    <h1>Base de datos en Firebase :</h1>
     <br>
     <br>
     <table border="1">
@@ -82,13 +82,13 @@
                     botonEditar.textContent = "Editar";
                     botonEditar.addEventListener("click", () => {
                         const nuevoNombre = prompt("Ingrese el nuevo nombre:", data.name);
-                        
-                        // Verificar si el usuario ingresó un nuevo nombre
-                        if (nuevoNombre !== null) {
+
+                        // Verificar si el usuario ingresó un nuevo nombre y no está vacío
+                        if (nuevoNombre !== null && nuevoNombre.trim() !== "") {
                             const nuevaEdad = prompt("Ingrese la nueva edad:", data.age);
 
-                            // Verificar si el usuario ingresó una nueva edad
-                            if (nuevaEdad !== null) {
+                            // Verificar si el usuario ingresó una nueva edad y no está vacía
+                            if (nuevaEdad !== null && nuevaEdad.trim() !== "") {
                                 // Obtener referencia específica para el registro que queremos actualizar
                                 const registroRef = ref(septimoRef, key);
 
@@ -100,6 +100,7 @@
                             }
                         }
                     });
+
                     const botonEliminar = document.createElement("button");
                     botonEliminar.textContent = "Eliminar";
                     botonEliminar.addEventListener("click", () => {
