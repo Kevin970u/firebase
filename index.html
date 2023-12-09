@@ -14,7 +14,7 @@
         <input type="number" id="edad">
         <button type="button" onclick="crearRegistro()">Agregar</button>
     </form>
-    <h1>Base de datos en Firebase</h1>
+    <h1>Base de datos en Firebase:</h1>
     <br>
     <br>
     <table border="1">
@@ -85,10 +85,8 @@
                         const nuevaEdad = prompt("Ingrese la nueva edad:", data.age);
 
                         if (nuevoNombre !== null && nuevaEdad !== null) {
-                            // Obtener la referencia específica para el registro que queremos actualizar
                             const registroRef = ref(database, `septimo/${key}`);
 
-                            // Utilizar la función update en la referencia específica
                             update(registroRef, {
                                 name: nuevoNombre,
                                 age: nuevaEdad
@@ -99,14 +97,11 @@
                     const botonEliminar = document.createElement("button");
                     botonEliminar.textContent = "Eliminar";
                     botonEliminar.addEventListener("click", () => {
-                        // Confirmar con el usuario antes de eliminar
                         const confirmarEliminar = confirm("¿Estás seguro de que deseas eliminar este registro?");
                         
                         if (confirmarEliminar) {
-                            // Obtener la referencia específica para el registro que queremos eliminar
                             const registroRef = ref(database, `septimo/${key}`);
 
-                            // Utilizar la función remove en la referencia específica
                             remove(registroRef);
                         }
                     });
@@ -123,7 +118,6 @@
             });
         }
 
-        // Mostrar los registros al cargar la página
         mostrarRegistros();
     </script>
 </body>
