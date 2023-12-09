@@ -58,6 +58,27 @@
             );
         }
 
+        function editarRegistro(key, data, septimoRef) {
+            const nuevoNombre = prompt("Ingrese el nuevo nombre:", data.name);
+
+            // Verificar si el usuario ingresó un nuevo nombre y no está vacío
+            if (nuevoNombre !== null && nuevoNombre.trim() !== "") {
+                const nuevaEdad = prompt("Ingrese la nueva edad:", data.age);
+
+                // Verificar si el usuario ingresó una nueva edad y no está vacía
+                if (nuevaEdad !== null && nuevaEdad.trim() !== "") {
+                    // Obtener referencia específica para el registro que queremos actualizar
+                    const registroRef = ref(septimoRef, key);
+
+                    // Utilizar la función update en la referencia específica
+                    update(registroRef, {
+                        name: nuevoNombre.trim(),
+                        age: nuevaEdad.trim()
+                    });
+                }
+            }
+        }
+
         window.mostrarRegistros = function () {
             const tablaRegistros = document.getElementById("tablaRegistros");
             tablaRegistros.innerHTML = "";
@@ -75,7 +96,7 @@
                     labelNombre.textContent = data.name;
                     labelNombre.style.cursor = "pointer";
                     labelNombre.addEventListener("click", () => {
-                        editarRegistro(key, data);
+                        editarRegistro(key, data, septimoRef);
                     });
                     celdaNombre.appendChild(labelNombre);
 
@@ -101,27 +122,6 @@
             });
         }
 
-        // Función para editar un registro
-        function editarRegistro(key, data) {
-            const nuevoNombre = prompt("Ingrese el nuevo nombre:", data.name);
-
-            // Verificar si el usuario ingresó un nuevo nombre y no está vacío
-            if (nuevoNombre !== null && nuevoNombre.trim() !== "") {
-                const nuevaEdad = prompt("Ingrese la nueva edad:", data.age);
-
-                // Verificar si el usuario ingresó una nueva edad y no está vacía
-                if (nuevaEdad !== null && nuevaEdad.trim() !== "") {
-                    // Obtener referencia específica para el registro que queremos actualizar
-                    const registroRef = ref(septimoRef, key);
-
-                    // Utilizar la función update en la referencia específica
-                    update(registroRef, {
-                        name: nuevoNombre.trim(),
-                        age: nuevaEdad.trim()
-                    });
-                }
-            }
-        }
 
         // Mostrar los registros al cargar la página
         mostrarRegistros();
