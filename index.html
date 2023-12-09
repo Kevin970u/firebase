@@ -14,7 +14,7 @@
         <input type="number" id="edad">
         <button type="button" onclick="crearRegistro()">Agregar</button>
     </form>
-    <h1>Base de datos en Firebase</h1>
+    <h1>Base de datos en Firebase:</h1>
     <br>
     <br>
     <table border="1">
@@ -68,39 +68,32 @@
                     const key = childSnapshot.key;
                     const data = childSnapshot.val();
 
+                    // Mover estas líneas dentro del bucle para que las variables se declaren en cada iteración
                     const fila = document.createElement("tr");
-
                     const celdaNombre = document.createElement("td");
-                    celdaNombre.textContent = data.name;
-
                     const celdaEdad = document.createElement("td");
+                    const celdaAcciones = document.createElement("td");
+                    const botonEditar = document.createElement("button");
+                    const botonEliminar = document.createElement("button");
+
+                    celdaNombre.textContent = data.name;
                     celdaEdad.textContent = data.age;
 
-                    const celdaAcciones = document.createElement("td");
-
-                    const botonEditar = document.createElement("button");
                     botonEditar.textContent = "Editar";
                     botonEditar.addEventListener("click", () => {
-                        const nombre = prompt("Ingrese el nuevo nombre:", data.name);
-                        const edad = prompt("Ingrese la nueva edad:", data.age);
+                        const nuevoNombre = prompt("Ingrese el nuevo nombre:", data.name);
+                        const nuevaEdad = prompt("Ingrese la nueva edad:", data.age);
 
-                        // Utilizar la función update en la referencia específica
-                        update(
-                            ref(database, 'septimo'),
-                            {
-                                name: nombre,
-                                age: edad 
-                            }
-                        );
+                        const registroRef = ref(database, 'septimo', key);
+                        update(registroRef, {
+                            name: nuevoNombre,
+                            age: nuevaEdad
+                        });
                     });
 
-                    const botonEliminar = document.createElement("button");
                     botonEliminar.textContent = "Eliminar";
                     botonEliminar.addEventListener("click", () => {
-                        // Obtener referencia específica para el registro que queremos eliminar
                         const registroRef = ref(database, 'septimo', key);
-
-                        // Utilizar la función remove en la referencia específica
                         remove(registroRef);
                     });
 
