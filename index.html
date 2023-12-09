@@ -3,21 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BDD</title>
+    <title>Hola</title>
 </head>
 <body>
-    <h2>Agregar:</h2> 
+    <h1>Hola mundo</h1>
+    <br> 
     <form action="#" id="crud_form">
         <label for="nombre">Nombre:</label>
         <input type="text" id="nombre">
         <label for="edad">Edad</label>
         <input type="number" id="edad">
         <button type="button" onclick="crearRegistro()">Crear</button>
-        <button type="button" onclick="eliminarRegistros()">Eliminar Todo</button>
     </form>
-    <br>
-    <br>
-    <h1>Base de datos en Firebase</h1>
+
     <table border="1">
         <thead>
             <tr>
@@ -30,94 +28,10 @@
     </table>
 
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
-        import { getDatabase, ref, push, onValue, remove, update } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js";
-
-        const firebaseConfig = {
-          apiKey: "AIzaSyDDiEZK38IT1kbRMudw5xrCXfNvvHaJzkQ",
-          authDomain: "programa-db163.firebaseapp.com",
-          databaseURL: "https://programa-db163-default-rtdb.firebaseio.com",
-          projectId: "programa-db163",
-          storageBucket: "programa-db163.appspot.com",
-          messagingSenderId: "110010089612",
-          appId: "1:110010089612:web:a8a47a493c9f766a96fba9"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const database = getDatabase(app);
-
-        window.crearRegistro = function () {
-            const nombre = document.getElementById("nombre").value;
-            const edad = document.getElementById("edad").value;
-
-            push(
-                ref(database, 'septimo'),
-                {
-                    name: nombre,
-                    age: edad 
-                }
-            );
-        }
-
-        window.eliminarRegistros = function () {
-            const septimoRef = ref(database, 'septimo');
-            onValue(septimoRef, (snapshot) => {
-                snapshot.forEach((childSnapshot) => {
-                    const key = childSnapshot.key;
-                    remove(ref(septimoRef, key));
-                });
-            });
-        }
+        // ... (código anterior)
 
         window.mostrarRegistros = function () {
-            const tablaRegistros = document.getElementById("tablaRegistros");
-            tablaRegistros.innerHTML = "";
-
-            const septimoRef = ref(database, 'septimo');
-            onValue(septimoRef, (snapshot) => {
-                snapshot.forEach((childSnapshot) => {
-                    const key = childSnapshot.key;
-                    const data = childSnapshot.val();
-
-                    const fila = document.createElement("tr");
-
-                    const celdaNombre = document.createElement("td");
-                    celdaNombre.textContent = data.name;
-
-                    const celdaEdad = document.createElement("td");
-                    celdaEdad.textContent = data.age;
-
-                    const celdaAcciones = document.createElement("td");
-
-                    const botonEditar = document.createElement("button");
-                    botonEditar.textContent = "Editar";
-                    botonEditar.addEventListener("click", () => {
-                        // Aquí puedes implementar la lógica para la edición
-                        const nuevoNombre = prompt("Ingrese el nuevo nombre:", data.name);
-                        const nuevaEdad = prompt("Ingrese la nueva edad:", data.age);
-
-                        update(ref(septimoRef, key), {
-                            name: nuevoNombre,
-                            age: nuevaEdad
-                        });
-                    });
-
-                    const botonEliminar = document.createElement("button");
-                    botonEliminar.textContent = "Eliminar";
-                    botonEliminar.addEventListener("click", () => {
-                        remove(ref(septimoRef, key));
-                    });
-
-                    celdaAcciones.appendChild(botonEditar);
-                    celdaAcciones.appendChild(botonEliminar);
-
-                    fila.appendChild(celdaNombre);
-                    fila.appendChild(celdaEdad);
-                    fila.appendChild(celdaAcciones);
-
-                    tablaRegistros.appendChild(fila);
-                });
-            });
+            // ... (código anterior)
         }
 
         // Mostrar los registros al cargar la página
