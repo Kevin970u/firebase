@@ -84,16 +84,18 @@
                         const nuevoNombre = prompt("Ingrese el nuevo nombre:", data.name);
                         const nuevaEdad = prompt("Ingrese la nueva edad:", data.age);
 
-                        // Obtener referencia específica para el registro que queremos actualizar
-                        const registroRef = ref(septimoRef, key);
+                        // Verificar si el usuario ingresó un nuevo nombre y una nueva edad
+                        if (nuevoNombre !== null && nuevaEdad !== null) {
+                            // Obtener referencia específica para el registro que queremos actualizar
+                            const registroRef = ref(septimoRef, key);
 
-                        // Utilizar la función update en la referencia específica
-                        update(registroRef, {
-                            name: nuevoNombre,
-                            age: nuevaEdad
-                        });
+                            // Utilizar la función update en la referencia específica
+                            update(registroRef, {
+                                name: nuevoNombre,
+                                age: nuevaEdad
+                            });
+                        }
                     });
-
                     const botonEliminar = document.createElement("button");
                     botonEliminar.textContent = "Eliminar";
                     botonEliminar.addEventListener("click", () => {
