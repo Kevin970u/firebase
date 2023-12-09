@@ -14,7 +14,7 @@
         <input type="number" id="edad">
         <button type="button" onclick="crearRegistro()">Agregar</button>
     </form>
-    <h1>Base de datos en Firebase:</h1>
+    <h1>Base de datos en Firebase</h1>
     <br>
     <br>
     <table border="1">
@@ -56,9 +56,6 @@
                     age: edad 
                 }
             );
-
-            // Volver a cargar la tabla después de la creación del registro
-            mostrarRegistros();
         }
 
         window.mostrarRegistros = function () {
@@ -102,11 +99,16 @@
                     const botonEliminar = document.createElement("button");
                     botonEliminar.textContent = "Eliminar";
                     botonEliminar.addEventListener("click", () => {
-                        // Obtener la referencia específica para el registro que queremos eliminar
-                        const registroRef = ref(database, 'septimo', key);
+                        // Confirmar con el usuario antes de eliminar
+                        const confirmarEliminar = confirm("¿Estás seguro de que deseas eliminar este registro?");
+                        
+                        if (confirmarEliminar) {
+                            // Obtener la referencia específica para el registro que queremos eliminar
+                            const registroRef = ref(database, `septimo/${key}`);
 
-                        // Utilizar la función remove en la referencia específica
-                        remove(registroRef);
+                            // Utilizar la función remove en la referencia específica
+                            remove(registroRef);
+                        }
                     });
 
                     celdaAcciones.appendChild(botonEditar);
@@ -120,7 +122,6 @@
                 });
             });
         }
-
 
         // Mostrar los registros al cargar la página
         mostrarRegistros();
