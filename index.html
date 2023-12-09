@@ -14,7 +14,7 @@
         <input type="number" id="edad">
         <button type="button" onclick="crearRegistro()">Agregar</button>
     </form>
-    <h1>Base de datos en Firebase:</h1>
+    <h1>Base de datos en Firebase</h1>
     <br>
     <br>
     <table border="1">
@@ -56,6 +56,9 @@
                     age: edad 
                 }
             );
+
+            // Volver a cargar la tabla después de la creación del registro
+            mostrarRegistros();
         }
 
         window.mostrarRegistros = function () {
@@ -97,6 +100,9 @@
                             name: nuevoNombre,
                             age: nuevaEdad
                         });
+
+                        // Volver a cargar la tabla después de la actualización
+                        mostrarRegistros();
                     });
 
                     const botonEliminar = document.createElement("button");
@@ -107,6 +113,9 @@
 
                         // Utilizar la función remove en la referencia específica
                         remove(registroRef);
+
+                        // Volver a cargar la tabla después de la eliminación
+                        mostrarRegistros();
                     });
 
                     celdaAcciones.appendChild(botonEditar);
