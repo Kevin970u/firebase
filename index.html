@@ -8,22 +8,30 @@
 <body>
     <h1>Hola mundo</h1>
     <br> 
-    <form action="procesar_formulario.php" id="crud form"></form>
+    <form action="#" id="crud_form">
         <label for="nombre">Nombre:</label>
         <input type="text" id="nombre">
         <label for="edad">Edad</label>
         <input type="number" id="edad">
         <button type="button" onclick="crearRegistro()">Crear</button>
+        <button type="button" onclick="eliminarRegistros()">Eliminar Todo</button>
     </form>
 
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Edad</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody id="tablaRegistros"></tbody>
+    </table>
+
     <script type="module">
-        // Import the functions you need from the SDKs you need
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
-        import { getDatabase, ref, push, onValue, remove } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js";
-        // TODO: Add SDKs for Firebase products that you want to use
-        // https://firebase.google.com/docs/web/setup#available-libraries
-      
-        // Your web app's Firebase configuration
+        import { getDatabase, ref, push, onValue, remove, update } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js";
+
         const firebaseConfig = {
           apiKey: "AIzaSyDDiEZK38IT1kbRMudw5xrCXfNvvHaJzkQ",
           authDomain: "programa-db163.firebaseapp.com",
@@ -33,16 +41,13 @@
           messagingSenderId: "110010089612",
           appId: "1:110010089612:web:a8a47a493c9f766a96fba9"
         };
-      
-        // Initialize Firebase
+
         const app = initializeApp(firebaseConfig);
         const database = getDatabase(app);
 
         window.crearRegistro = function () {
             const nombre = document.getElementById("nombre").value;
             const edad = document.getElementById("edad").value;
-
-            console.log(nombre, edad);
 
             push(
                 ref(database, 'septimo'),
@@ -52,7 +57,70 @@
                 }
             );
         }
-      </script>
-    
+
+        window.eliminarRegistros = function () {
+            const septimoRef = ref(database, 'septimo');
+            onValue(septimoRef, (snapshot) => {
+                snapshot.forEach((childSnapshot) => {
+                    const key = childSnapshot.key;
+                    remove(ref(septimoRef, key));
+                });
+            });
+        }
+
+        window.mostrarRegistros = function () {
+            const tablaRegistros = document.getElementById("tablaRegistros");
+            tablaRegistros.innerHTML = "";
+
+            const septimoRef = ref(database, 'septimo');
+            onValue(septimoRef, (snapshot) => {
+                snapshot.forEach((childSnapshot) => {
+                    const key = childSnapshot.key;
+                    const data = childSnapshot.val();
+
+                    const fila = document.createElement("tr");
+
+                    const celdaNombre = document.createElement("td");
+                    celdaNombre.textContent = data.name;
+
+                    const celdaEdad = document.createElement("td");
+                    celdaEdad.textContent = data.age;
+
+                    const celdaAcciones = document.createElement("td");
+
+                    const botonEditar = document.createElement("button");
+                    botonEditar.textContent = "Editar";
+                    botonEditar.addEventListener("click", () => {
+                        // Aquí puedes implementar la lógica para la edición
+                        const nuevoNombre = prompt("Ingrese el nuevo nombre:", data.name);
+                        const nuevaEdad = prompt("Ingrese la nueva edad:", data.age);
+
+                        update(ref(septimoRef, key), {
+                            name: nuevoNombre,
+                            age: nuevaEdad
+                        });
+                    });
+
+                    const botonEliminar = document.createElement("button");
+                    botonEliminar.textContent = "Eliminar";
+                    botonEliminar.addEventListener("click", () => {
+                        remove(ref(septimoRef, key));
+                    });
+
+                    celdaAcciones.appendChild(botonEditar);
+                    celdaAcciones.appendChild(botonEliminar);
+
+                    fila.appendChild(celdaNombre);
+                    fila.appendChild(celdaEdad);
+                    fila.appendChild(celdaAcciones);
+
+                    tablaRegistros.appendChild(fila);
+                });
+            });
+        }
+
+        // Mostrar los registros al cargar la página
+        mostrarRegistros();
+    </script>
 </body>
 </html>
