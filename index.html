@@ -81,8 +81,8 @@
                     const botonEditar = document.createElement("button");
                     botonEditar.textContent = "Editar";
                     botonEditar.addEventListener("click", () => {
-                        const nuevoNombre = prompt("Ingrese el nuevo nombre:", data.name);
-                        const nuevaEdad = prompt("Ingrese la nueva edad:", data.age);
+                        const nuevoNombre = prompt("Ingrese el nuevo nombre:", data.name1);
+                        const nuevaEdad = prompt("Ingrese la nueva edad:", data.age1);
 
                         // Verificar si el usuario ingresó un nuevo nombre y una nueva edad
                         if (nuevoNombre !== null && nuevaEdad !== null) {
@@ -91,8 +91,8 @@
 
                             // Utilizar la función update en la referencia específica
                             update(registroRef, {
-                                name: nuevoNombre,
-                                age: nuevaEdad
+                                name1: nuevoNombre,
+                                age1: nuevaEdad
                             });
                         }
                     });
