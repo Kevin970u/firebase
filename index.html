@@ -14,7 +14,7 @@
         <input type="number" id="edad">
         <button type="button" onclick="crearRegistro()">Agregar</button>
     </form>
-    <h1>Base de datos en Firebase :</h1>
+    <h1>Base de datos en Firebase :)</h1>
     <br>
     <br>
     <table border="1">
@@ -84,22 +84,28 @@
                         const nuevoNombre = prompt("Ingrese el nuevo nombre:", data.name);
 
                         // Verificar si el usuario ingresó un nuevo nombre y no está vacío
-                        if (nuevoNombre !== null && nuevoNombre.trim() !== "") {
-                            const nuevaEdad = prompt("Ingrese la nueva edad:", data.age);
+                        if (nuevoNombre !== null) {
+                            const nuevoNombreTrimmed = nuevoNombre.trim();  // Eliminar espacios en blanco al inicio y al final
 
-                            // Verificar si el usuario ingresó una nueva edad y no está vacía
-                            if (nuevaEdad !== null && nuevaEdad.trim() !== "") {
-                                // Obtener referencia específica para el registro que queremos actualizar
-                                const registroRef = ref(septimoRef, key);
+                            // Verificar si el nuevo nombre no está vacío después de quitar espacios en blanco
+                            if (nuevoNombreTrimmed !== "") {
+                                const nuevaEdad = prompt("Ingrese la nueva edad:", data.age);
 
-                                // Utilizar la función update en la referencia específica
-                                update(registroRef, {
-                                    name: nuevoNombre,
-                                    age: nuevaEdad
-                                });
+                                // Verificar si el usuario ingresó una nueva edad y no está vacía
+                                if (nuevaEdad !== null && nuevaEdad.trim() !== "") {
+                                    // Obtener referencia específica para el registro que queremos actualizar
+                                    const registroRef = ref(septimoRef, key);
+
+                                    // Utilizar la función update en la referencia específica
+                                    update(registroRef, {
+                                        name: nuevoNombreTrimmed,
+                                        age: nuevaEdad
+                                    });
+                                }
                             }
                         }
                     });
+
 
                     const botonEliminar = document.createElement("button");
                     botonEliminar.textContent = "Eliminar";
