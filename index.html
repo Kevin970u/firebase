@@ -68,17 +68,17 @@
                     const key = childSnapshot.key;
                     const data = childSnapshot.val();
 
-                    // Mover estas líneas dentro del bucle para que las variables se declaren en cada iteración
                     const fila = document.createElement("tr");
-                    const celdaNombre = document.createElement("td");
-                    const celdaEdad = document.createElement("td");
-                    const celdaAcciones = document.createElement("td");
-                    const botonEditar = document.createElement("button");
-                    const botonEliminar = document.createElement("button");
 
+                    const celdaNombre = document.createElement("td");
                     celdaNombre.textContent = data.name;
+
+                    const celdaEdad = document.createElement("td");
                     celdaEdad.textContent = data.age;
 
+                    const celdaAcciones = document.createElement("td");
+
+                    const botonEditar = document.createElement("button");
                     botonEditar.textContent = "Editar";
                     botonEditar.addEventListener("click", () => {
                         const nuevoNombre = prompt("Ingrese el nuevo nombre:", data.name);
@@ -91,6 +91,7 @@
                         });
                     });
 
+                    const botonEliminar = document.createElement("button");
                     botonEliminar.textContent = "Eliminar";
                     botonEliminar.addEventListener("click", () => {
                         const registroRef = ref(database, 'septimo', key);
@@ -104,6 +105,7 @@
                     fila.appendChild(celdaEdad);
                     fila.appendChild(celdaAcciones);
 
+                    // Agregar la fila a la tabla, no a la variable tablaRegistros
                     tablaRegistros.appendChild(fila);
                 });
             });
