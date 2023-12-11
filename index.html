@@ -62,7 +62,7 @@
             const tablaRegistros = document.getElementById("tablaRegistros");
             tablaRegistros.innerHTML = "";
 
-            const septimoRef = ref(database, 'septimo');
+            const septimoRef = ref(database, 'Caicedo');
             onValue(septimoRef, (snapshot) => {
                 snapshot.forEach((childSnapshot) => {
                     const key = childSnapshot.key;
@@ -85,7 +85,7 @@
                         const nuevaEdad = prompt("Ingrese la nueva edad:", data.age);
 
                         if (nuevoNombre !== null && nuevaEdad !== null) {
-                            const registroRef = ref(database, `septimo/${key}`);
+                            const registroRef = ref(database, `Caicedo/${key}`);
 
                             update(registroRef, {
                                 name: nuevoNombre,
@@ -100,7 +100,7 @@
                         const confirmarEliminar = confirm("¿Estás seguro de que deseas eliminar este registro?");
                         
                         if (confirmarEliminar) {
-                            const registroRef = ref(database, `septimo/${key}`);
+                            const registroRef = ref(database, `Caicedo/${key}`);
 
                             remove(registroRef);
                         }
